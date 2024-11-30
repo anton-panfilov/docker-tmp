@@ -1,0 +1,15 @@
+version: '3.8'
+
+volumes:
+  percona:
+
+services:
+  percona:
+    image: percona/percona-server:8.4
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PERCONA_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${PERCONA_DATABASE_NAME}
+    volumes:
+      - percona:/var/lib/mysql
+    ports:
+      - ${PERCONA_PORT}:3306
