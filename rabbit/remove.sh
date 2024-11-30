@@ -5,20 +5,28 @@
 # Repository: https://github.com/anton-panfilov/docker-tmp
 
 source .env
-HL_START="\033[1;4m"
-HL_START_PURPLE="\033[45m"
+
+HL_EMOJI="🔴"
+HL_BOLD_UNDERLINE="\033[1;4m"
+HL_PURPLE="\033[45m"
+HL_ERROR="\033[30;41m"
 HL_END="\033[0m"
+ERROR_EMOJI="⚠️"
+ERROR_TEXT_NO_PROJECT="Error: PROJECT variable is not set in the .env file."
+REMOVE_TEXT="Removing all containers and volumes for project"
+CONFIRMATION_QUESTION_TEXT="Are you sure you want to proceed?"
+CONFIRMATION_CANCEL_TEXT="Operation canceled."
 
 if [[ -z "$PROJECT" ]]; then
-  echo "Error: PROJECT variable is not set in the .env file."
+  echo -e "${ERROR_EMOJI} ${HL_ERROR}${ERROR_TEXT_NO_PROJECT}${HL_END}"
   exit 1
 fi
 
-echo -e "🔴 ${HL_START}Removing all containers and volumes for project: ${HL_START_PURPLE}${PROJECT}${HL_END}"
+echo -e "${HL_EMOJI} ${HL_BOLD_UNDERLINE}${REMOVE_TEXT}: ${HL_PURPLE}${PROJECT}${HL_END}"
 
-read -p "Are you sure you want to proceed? (Y/N): " CONFIRM
+read -p "${CONFIRMATION_QUESTION_TEXT} (Y/N): " CONFIRM
 if [[ "$CONFIRM" != "Y" && "$CONFIRM" != "y" ]]; then
-  echo "Operation canceled."
+  echo -e "${CONFIRMATION_CANCEL_TEXT}"
   exit 0
 fi
 
